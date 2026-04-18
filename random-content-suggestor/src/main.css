@@ -1,0 +1,31 @@
+:root {
+  /* Dark Mode Essentials */
+  --background: oklch(0.145 0 0);          /* Deep charcoal/black */
+  --foreground: oklch(0.985 0 0);          /* Off-white text */
+  --card: oklch(0.205 0 0);                /* Slightly lighter card bg */
+  --card-foreground: oklch(0.985 0 0);
+  
+  /* Accents & Details */
+  --primary: oklch(0.708 0 0);             /* Muted silver/grey */
+  --accent: oklch(0.646 0.222 41.116);     /* Warm coral/orange for highlights */
+  --border: oklch(0.25 0 0);               /* Subtle border */
+  --radius: 0.625rem;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: sans-serif;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* Mobile adjust */
+@media (max-width: 600px) {
+  .results-container {
+    flex-direction: column;
+  }
+  .poster img {
+    width: 100%;
+  }
+}

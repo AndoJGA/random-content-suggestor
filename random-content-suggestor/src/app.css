@@ -1,0 +1,138 @@
+/* --- GLOBAL CONTAINER --- */
+.main-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px;
+  background: var(--background);
+  min-height: 100vh;
+}
+
+/* --- FILTER CARD --- */.filter-card {
+  background: var(--card);
+  padding: 1.5rem 2rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2.5rem;
+  width: 95%;
+  max-width: 1000px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+}
+
+.filter-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* --- RADIO TOGGLE --- */
+.content-group {
+  display: flex;
+  background: var(--background);
+  padding: 4px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.radio-btn {
+  flex: 1;
+  text-align: center;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: calc(var(--radius) - 6px);
+  transition: all 0.2s ease;
+  color: var(--muted-foreground);
+}
+
+.radio-btn.active {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.radio-btn:hover:not(.active) {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--foreground);
+}
+
+.hidden-radio {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* --- SLIDERS --- */
+.range-labels {
+  display: flex;
+  justify-content: space-between;
+  font-family: monospace;
+  font-size: 0.8rem;
+  margin-bottom: 12px;
+  color: var(--accent);
+}
+
+.range-slider {
+  position: relative;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+}
+
+.range-track {
+  position: absolute;
+  height: 100%;
+  background: var(--accent);
+  z-index: 1;
+}
+
+.range-input {
+  position: absolute;
+  width: 100%;
+  top: -6px;
+  left: 0;
+  background: none;
+  pointer-events: none;
+  appearance: none;
+  -webkit-appearance: none;
+  z-index: 2;
+  margin: 0;
+}
+
+/* Thumbs */
+.range-input::-webkit-slider-thumb {
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: var(--foreground);
+  border: 2px solid var(--accent);
+  cursor: pointer;
+  pointer-events: auto;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.range-input::-moz-range-thumb {
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  background: var(--foreground);
+  border: 2px solid var(--accent);
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+@media (max-width: 800px) {
+  .filter-card {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 1.5rem;
+  }
+}

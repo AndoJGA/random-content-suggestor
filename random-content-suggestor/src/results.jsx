@@ -40,7 +40,7 @@ const Results = () => {
       </div>
       <div className="details">
         <h1>{trending.title || trending.name}</h1>
-        <p>Rating: {trending.vote_average}</p>
+        <p>Rating: {(trending.vote_average.toFixed(2))*10}</p>
         <p>Released: {trending.release_date || trending.first_air_date}</p>
       </div>
     </div>
