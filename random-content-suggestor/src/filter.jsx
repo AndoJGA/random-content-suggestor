@@ -5,8 +5,8 @@ const Filter = () => {
   const minYear = 1927;
 
   const [type, setType] = useState("all");
-  const [years, setYears] = useState({ min: 1990, max: currentYear });
-  const [rating, setRating] = useState({ min: 0, max: 100 });
+  const [years, setYears] = useState({ min: 2010, max: currentYear });
+  const [rating, setRating] = useState({ min: 70, max: 100 });
 
   const getPercent = (value, min, max) => ((value - min) / (max - min)) * 100;
 
