@@ -1,12 +1,21 @@
 import { useState } from 'react';
 
-const Filter = () => {
+const Filter = ({ onSearch }) => {
   const currentYear = new Date().getFullYear();
   const minYear = 1927;
 
-  const [type, setType] = useState("all");
-  const [years, setYears] = useState({ min: 2010, max: currentYear });
-  const [rating, setRating] = useState({ min: 70, max: 100 });
+  const [localFilters, setLocalFilters] = useState({
+    type: "movie",
+    yearMin: 2010,
+    yearMax: currentYear,
+    ratingMin: 70,
+    ratingMax: 100,
+    genre: ""
+  });
+
+  const updateFilter = (key, value) => {
+    setLocalFilters(prev => ({ ...prev, [key]: value }));
+  };
 
   const getPercent = (value, min, max) => ((value - min) / (max - min)) * 100;
 
@@ -15,15 +24,13 @@ const Filter = () => {
       {/* Type Toggle */}
       <div className="filter-section">
         <div className="content-group">
-          {["movie", "tv", "all"].map((id) => (
-            <label key={id} htmlFor={id} className={`radio-btn ${type === id ? 'active' : ''}`}>
+          {["movie", "tv"].map((id) => (
+            <label key={id} className={`radio-btn ${localFilters.type === id ? 'active' : ''}`}>
               <input 
                 type="radio" 
-                id={id}
-                name="content-type"
                 className="hidden-radio" 
-                checked={type === id}
-                onChange={() => setType(id)} 
+                checked={localFilters.type === id}
+                onChange={() => updateFilter('type', id)} 
               />
               {id.toUpperCase()}
             </label>
@@ -34,53 +41,89 @@ const Filter = () => {
       {/* Year Slider */}
       <div className="filter-section">
         <div className="range-labels">
-          <span>Year: {years.min}</span>
-          <span>{years.max}</span>
+          <span>{localFilters.yearMin} - {localFilters.yearMax}</span>
         </div>
         <div className="range-slider">
           <div 
             className="range-track" 
             style={{ 
-              left: `${getPercent(years.min, minYear, currentYear)}%`, 
-              right: `${100 - getPercent(years.max, minYear, currentYear)}%` 
+              left: `${getPercent(localFilters.yearMin, minYear, currentYear)}%`, 
+              right: `${100 - getPercent(localFilters.yearMax, minYear, currentYear)}%` 
             }} 
           />
           <input
-            type="range" min={minYear} max={currentYear} value={years.min}
-            onChange={(e) => setYears({ ...years, min: Math.min(Number(e.target.value), years.max - 1) })}
+            type="range" min={minYear} max={currentYear} value={localFilters.yearMin}
+            onChange={(e) => updateFilter('yearMin', Math.min(Number(e.target.value), localFilters.yearMax - 1))}
             className="range-input"
           />
           <input
-            type="range" min={minYear} max={currentYear} value={years.max}
-            onChange={(e) => setYears({ ...years, max: Math.max(Number(e.target.value), years.min + 1) })}
+            type="range" min={minYear} max={currentYear} value={localFilters.yearMax}
+            onChange={(e) => updateFilter('yearMax', Math.max(Number(e.target.value), localFilters.yearMin + 1))}
             className="range-input"
           />
         </div>
       </div>
 
+      {/* Genre List */}
+      <div className="genre-section">
+        <select 
+          value={localFilters.genre} 
+          onChange={(e) => updateFilter('genre', e.target.value)}
+        >
+          <option value="">Any Genre</option>
+          <option value="28">Action</option>
+          <option value="12">Adventure</option>
+          <option value="16">Animation</option>
+          <option value="35">Comedy</option>
+          <option value="80">Crime</option>
+          <option value="99">Documentary</option>
+          <option value="18">Drama</option>
+          <option value="10751">Family</option>
+          <option value="14">Fantasy</option>
+          <option value="36">History</option>
+          <option value="27">Horror</option>
+          <option value="9648">Mystery</option>
+          <option value="10749">Romance</option>
+          <option value="878">Sci-Fi</option>
+          <option value="53">Thriller</option>
+        </select>
+      </div>
+
       {/* Rating Slider */}
       <div className="filter-section">
         <div className="range-labels">
-          <span>Score: {rating.min}</span>
-          <span>{rating.max}</span>
+          {/* Corrected labels to show ratings */}
+          <span>Score: {localFilters.ratingMin} - {localFilters.ratingMax}</span>
         </div>
         <div className="range-slider">
           <div 
             className="range-track" 
-            style={{ left: `${rating.min}%`, right: `${100 - rating.max}%` }} 
+            style={{ 
+              /* Fix: Use 0 and 100 for the min/max math of a rating slider */
+              left: `${getPercent(localFilters.ratingMin, 0, 100)}%`, 
+              right: `${100 - getPercent(localFilters.ratingMax, 0, 100)}%` 
+            }} 
           />
           <input
-            type="range" min="0" max="100" value={rating.min}
-            onChange={(e) => setRating({ ...rating, min: Math.min(Number(e.target.value), rating.max - 1) })}
+            type="range" min="0" max="100" value={localFilters.ratingMin}
+            onChange={(e) => updateFilter('ratingMin', Math.min(Number(e.target.value), localFilters.ratingMax - 1))}
             className="range-input"
           />
           <input
-            type="range" min="0" max="100" value={rating.max}
-            onChange={(e) => setRating({ ...rating, max: Math.max(Number(e.target.value), rating.min + 1) })}
+            type="range" min="0" max="100" value={localFilters.ratingMax}
+            onChange={(e) => updateFilter('ratingMax', Math.max(Number(e.target.value), localFilters.ratingMin + 1))}
             className="range-input"
           />
         </div>
       </div>
+
+
+      <button 
+        className="btn-primary" 
+        onClick={() => onSearch(localFilters)}
+      >
+        Re-spin
+      </button>
     </div>
   );
 };
